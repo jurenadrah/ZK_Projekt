@@ -126,7 +126,7 @@ Iz obsega so izpuščeni tokovi, ki jih naloga prepoveduje: (1) javno iskanje in
 | --- | --- |
 | **Aplikacija:** DotaOps · **Verzija aplikacije:** 0.0.1-SNAPSHOT | **Datum scenarija:** 4. 11. 2026 · **Avtor:** Član 3 |
 | **Kratek opis** | Uspešen uvoz podatkov tekme prek Match ID |
-| **Referenca:** stran »Dashboard« (`/dashboard`), panel »Match Data Import«; `README.md` (Match import lifecycle) | **Zahteve v SZPO:** / |
+| **Referenca:** panel »Match Data Import« v pogledu za uvoz organizatorja; `README.md` (Match import lifecycle) | **Zahteve v SZPO:** / |
 
 **Namen:** Preveriti, da organizator lahko uvozi javno tekmo Dota 2 iz OpenDota z vnosom njenega ID-ja in da aplikacija prikaže potek uvoza do uspešnega zaključka.
 
@@ -138,7 +138,7 @@ Iz obsega so izpuščeni tokovi, ki jih naloga prepoveduje: (1) javno iskanje in
 
 | Korak | Akcija | Pričakovan rezultat |
 | --- | --- | --- |
-| 1. | V meniju odpri stran **Dashboard**. | Prikazan je panel **Match Data Import** s statusom »Idle«. |
+| 1. | V organizatorskem pogledu turnirja odpri zavihek **Import**. | Prikazan je panel **Match Data Import** s statusom »Idle«. |
 | 2. | V polje **Match ID** vnesi ID tekme in klikni **Import**. | Gumb se spremeni v »Importing...«, nato se prikaže sporočilo »Import job accepted by backend.« |
 | 3. | Opazuj status uvoza (po potrebi klikni gumb za osvežitev). | Status preide skozi »Queued« in »Processing« do **Ready**. |
 | 4. | Preglej podatke uvoza. | Polje »Dota Match« prikazuje vneseni ID; izpolnjena sta »Started« in »Completed«. |
@@ -172,8 +172,67 @@ Scenariji so dopolnjeni z avtomatiziranimi white-box testi v backendu (`TeamServ
 | Rezultati izvedbe so izvirali iz JUnit testov. | Rezultati so izpraznjeni, ker je treba scenarije ročno izvesti v delujoči aplikaciji. |
 | Devet scenarijev (različica 1.1). | Trije scenariji, po en na člana. |
 
+## 9. Avtomatizirano funkcionalno testiranje
+
+### Izbira orodja in vključitev v cevovod
+
+Za TypeScript/Next.js frontend je izbran **Playwright Test** (`@playwright/test`):
+teste izvaja v pravem brskalniku, podpira headless zagon brez grafičnega
+vmesnika, samodejno upravlja čakanje na elemente in ponuja poročila HTML ter
+JUnit/XML. V cevovodu se po namestitvi npm paketov namesti Chromium z njegovimi
+sistemskimi odvisnostmi in zažene `npm run test:e2e`. Konfiguracija sama
+zažene frontend in lokalni testni Supabase Auth odgovor.
+
+Za lokalni zagon:
+
+```bash
+cd frontend
+npm ci
+npx playwright install chromium
+npm run test:e2e
+```
+
+Okolje potrebuje Node.js 20+, npm in Chromium; grafično namizje, pravi
+Supabase račun, baza, backend in OpenDota za te avtomatizirane primere niso
+potrebni. Playwright v brskalniku prestreže API klice in vrne deterministične
+testne odgovore. Zato testi preverjajo uporabniški vmesnik, validacijo
+zahtevkov ter prikaz rezultatov, ne pa integracije z bazo, backendom ali
+OpenDota. Te integracije je treba dodatno preveriti v namenskem testnem
+okolju.
+
+V GitHub Actions je korak vključen v `frontend-ci.yml`. Poročilo HTML se
+shrani v `frontend/playwright-report/`, strojno berljiv JUnit rezultat pa v
+`frontend/test-results/junit.xml`; ob napaki Playwright shrani tudi trace.
+Izhodne mape so izključene iz Git-a.
+
+### Rezultati izvedbe
+
+| Test | Rezultat | Preverjeno |
+| --- | --- | --- |
+| FT-01 | PASS | Ustvaritev ekipe, obrezovanje vnosov, prikaz kapetana in obstoj po osvežitvi strani. |
+| FT-02 | PASS | Objava osnutka in prikaz statusa »Published« po osvežitvi strani. |
+| FT-03 | PASS | Oddaja Match ID, stanje »Ready« ter dogodki »Queued«, »Processing« in »Ready«. |
+
+Izvedba 17. 11. 2026: Playwright 1.65.1, Chromium 159.0.8154.6, headless
+na Node.js 24.0.2; testni API in Supabase odgovori, brez zunanje testne baze.
+Skupni rezultat je **3/3 PASS**. Pri FT-03 je uporabljen zavihek
+**Import** organizatorskega pogleda, saj je to mesto panela v trenutni
+implementaciji (namesto stare navedbe `/dashboard`).
+
+### Preverjanje zaznave napake
+
+Po uspešni izvedbi sem začasno spremenil sporočilo ob uspešni ustvaritvi ekipe
+iz »Team created successfully.« v »Team created.«. Test FT-01 je pravilno
+padel pri preverjanju pričakovanega sporočila (1 FAIL). Napako sem odstranil
+in ponovno izvedel celoten nabor; rezultat je bil 3/3 PASS.
+
+Med avtomatizacijo je FT-01 odkril tudi napako v aplikaciji: osvežitev podatkov
+po ustvaritvi ekipe je prepisala uspešno sporočilo. Sporočilo se zdaj nastavi
+po končanem osveževanju, zato je pričakovani rezultat viden.
+
 ## Viri
 
 - ISO/IEC/IEEE 29119-3:2021, *Software and systems engineering — Software testing — Part 3: Test documentation*: https://www.iso.org/standard/79429.html
 - IEEE SA, *IEEE/ISO/IEC 29119-3-2021*: https://standards.ieee.org/ieee/29119-3/7499/
+- Playwright, [Continuous Integration](https://playwright.dev/docs/ci-intro), [Test Reporters](https://playwright.dev/docs/test-reporters) in [Browser installation](https://playwright.dev/docs/browsers).
 - Projektna dokumentacija in implementacija v tem repozitoriju, zlasti `docs/project-current-state-overview.md` in frontend pod `frontend/src/`.

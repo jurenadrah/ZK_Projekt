@@ -1084,8 +1084,8 @@ export function TeamManagementPage() {
 
     try {
       await createTeam(input);
-      setNotice("Team created successfully.");
       await load();
+      setNotice("Team created successfully.");
       setActiveTab("overview");
     } catch (caught) {
       setError(readableError(caught, "Team could not be created."));

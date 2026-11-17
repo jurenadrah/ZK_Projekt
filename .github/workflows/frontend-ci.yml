@@ -22,6 +22,9 @@ jobs:
       - name: Install deps
         working-directory: frontend
         run: npm ci
+      - name: Install Playwright Chromium
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
       - name: Lint
         working-directory: frontend
         run: npm run lint
@@ -31,3 +34,6 @@ jobs:
       - name: Build
         working-directory: frontend
         run: npm run build
+      - name: Functional tests
+        working-directory: frontend
+        run: npm run test:e2e
