@@ -1,0 +1,20 @@
+[
+  {
+    "id": "41391083-d71f-df20-c4f8-74c00046abdf",
+    "slug": "dotaops-demo-cup",
+    "title": "DotaOps Demo Cup",
+    "status": "live",
+    "format": "groups_playoff",
+    "teamSize": 5,
+    "organizer": "DotaOps",
+    "description": "End-to-end DotaOps demo tournament with registrations, groups, bracket, match games and analytics.",
+    "rules": "Synthetic demo rules. No real players or real tournament results are represented.",
+    "prizePool": "Demo Aegis + bragging rights",
+    "maxTeams": 8,
+    "registrationsCount": 4,
+    "startsAt": "2026-06-01T12:00:00Z",
+    "endsAt": "2026-06-07T20:00:00Z",
+    "timezone": "UTC",
+    "publicVisible": true
+  }
+]

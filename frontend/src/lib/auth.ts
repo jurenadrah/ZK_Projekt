@@ -381,11 +381,17 @@ function profileFromBackend(
 
 export async function getCurrentUserProfile(): Promise<CurrentUserProfile | null> {
   const supabase = requireSupabaseClient();
-  const [{ data: userData, error: userError }, { data: sessionData }] = await Promise.all([
-    supabase.auth.getUser(),
-    supabase.auth.getSession()
-  ]);
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
 
+  if (sessionError) {
+    throw sessionError;
+  }
+
+  if (!sessionData.session) {
+    return null;
+  }
+
+  const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError) {
     throw userError;
   }

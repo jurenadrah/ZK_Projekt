@@ -1,0 +1,110 @@
+{
+  "tournamentId": "41391083-d71f-df20-c4f8-74c00046abdf",
+  "bracketSize": 4,
+  "bracketType": "single_elimination",
+  "stageName": "Playoffs",
+  "rounds": [
+    {
+      "roundNumber": 1,
+      "roundName": "Semifinals",
+      "matches": [
+        {
+          "matchId": "cc17e386-9916-49c8-b682-c05274cd15b0",
+          "roundNumber": 1,
+          "roundName": "Semifinals",
+          "bracketPosition": 1,
+          "bestOf": 3,
+          "status": "finished",
+          "scoreA": 2,
+          "scoreB": 0,
+          "winnerTeamId": "31d7a5c3-5721-4d61-8bb5-7337193e8741",
+          "winnerTeamName": "Radiant Wolves",
+          "slots": [
+            {
+              "slotNumber": 1,
+              "teamId": "31d7a5c3-5721-4d61-8bb5-7337193e8741",
+              "teamName": "Radiant Wolves",
+              "sourceType": "seed",
+              "sourceMatchId": null,
+              "seedNumber": 1
+            },
+            {
+              "slotNumber": 2,
+              "teamId": "03bca923-da4d-417b-8560-ae74df8bc7c2",
+              "teamName": "Roshan Hunters",
+              "sourceType": "seed",
+              "sourceMatchId": null,
+              "seedNumber": 4
+            }
+          ]
+        },
+        {
+          "matchId": "eb236017-837f-45b3-88c2-0faadc4577d7",
+          "roundNumber": 1,
+          "roundName": "Semifinals",
+          "bracketPosition": 2,
+          "bestOf": 3,
+          "status": "finished",
+          "scoreA": 2,
+          "scoreB": 1,
+          "winnerTeamId": "e32db574-ee36-4fb0-835c-58e765287c02",
+          "winnerTeamName": "Ancient Titans",
+          "slots": [
+            {
+              "slotNumber": 1,
+              "teamId": "e32db574-ee36-4fb0-835c-58e765287c02",
+              "teamName": "Ancient Titans",
+              "sourceType": "seed",
+              "sourceMatchId": null,
+              "seedNumber": 2
+            },
+            {
+              "slotNumber": 2,
+              "teamId": "f558f743-88c1-489c-813e-954b7008319f",
+              "teamName": "Dire Ravens",
+              "sourceType": "seed",
+              "sourceMatchId": null,
+              "seedNumber": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "roundNumber": 2,
+      "roundName": "Final",
+      "matches": [
+        {
+          "matchId": "94d88aa1-46b1-44c5-8b8f-e731069a3b01",
+          "roundNumber": 2,
+          "roundName": "Final",
+          "bracketPosition": 1,
+          "bestOf": 5,
+          "status": "scheduled",
+          "scoreA": 0,
+          "scoreB": 0,
+          "winnerTeamId": null,
+          "winnerTeamName": null,
+          "slots": [
+            {
+              "slotNumber": 1,
+              "teamId": "31d7a5c3-5721-4d61-8bb5-7337193e8741",
+              "teamName": "Radiant Wolves",
+              "sourceType": "winner",
+              "sourceMatchId": "cc17e386-9916-49c8-b682-c05274cd15b0",
+              "seedNumber": null
+            },
+            {
+              "slotNumber": 2,
+              "teamId": "e32db574-ee36-4fb0-835c-58e765287c02",
+              "teamName": "Ancient Titans",
+              "sourceType": "winner",
+              "sourceMatchId": "eb236017-837f-45b3-88c2-0faadc4577d7",
+              "seedNumber": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

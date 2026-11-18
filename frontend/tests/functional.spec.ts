@@ -62,7 +62,7 @@ async function fulfill(route: Route, body: unknown, status = 200) {
 }
 
 async function mockApi(page: Page, responder: (route: Route, path: string) => Promise<void>) {
-  await page.route("http://127.0.0.1:8080/api/**", async (route) => {
+  await page.route("http://127.0.0.1:18080/api/**", async (route) => {
     const path = new URL(route.request().url()).pathname.replace(/^\/api/, "");
     await responder(route, path);
   });
