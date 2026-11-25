@@ -1,0 +1,13 @@
+services:
+  mantisbt:
+    build:
+      context: ./mantisbt-2.28.4
+    ports:
+      - "8081:80"
+    volumes:
+      - ./mantisbt-2.28.4:/var/www/html
+    env_file:
+      - .env.mantis
+    environment:
+      PGSSLMODE: require
+    restart: unless-stopped

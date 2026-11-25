@@ -473,3 +473,25 @@ Opombe:
 - `docker-compose` uporablja vrednosti iz vaše root `.env`; poskrbite, da so `SUPABASE_DB_URL`, `SUPABASE_DB_USER` in `SUPABASE_DB_PASSWORD` pravilno nastavljene za vašo Supabase bazo (ali uporabite lokalno Postgres, če želite).
 - Če uporabljate Supabase v oblaku, bo aplikacija zahtevala ustrezne `NEXT_PUBLIC_SUPABASE_*` vrednosti za frontend (nastavite v root `.env` ali v `frontend/.env.local`).
 - Volumni `./backend/src` in `./frontend/src` so nastavljeni kot volumi v `docker-compose` za razvojno izkušnjo (če želite hot-reload). Če želite čisto produkcijsko sliko, odstranite volumenne mape iz `docker-compose.yml`.
+
+## MantisBT lokalno
+
+MantisBT zaženite ločeno od DotaOps okolja. Potrebujete Docker Desktop in povezavo do Supabase PostgreSQL Session poolerja.
+
+1. Ustvarite lokalno konfiguracijsko datoteko in vanjo vnesite Supabase podatke iz **Project Settings → Database → Connect**:
+
+   ```bash
+   cp .env.mantis.example .env.mantis
+   ```
+
+   Datoteka `.env.mantis` je namenjena lokalnim poverilnicam; ne commitajte je.
+
+2. Zgradite sliko in zaženite MantisBT iz korenske mape:
+
+   ```bash
+   docker compose -f docker-compose.mantis.yml up --build -d
+   ```
+
+3. Odprite `http://localhost:8081/admin/install.php` in dokončajte namestitev. Po namestitvi odstranite ali onemogočite namestitveno mapo `admin`.
+
+Za ogled dnevnika uporabite `docker compose -f docker-compose.mantis.yml logs -f mantisbt`, za ustavitev pa `docker compose -f docker-compose.mantis.yml down`. MantisBT uporablja tabelno predpono `mantis_`; za boljšo izolacijo podatkov je priporočljiv ločen Supabase projekt.
